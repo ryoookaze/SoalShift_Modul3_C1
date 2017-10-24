@@ -1,10 +1,11 @@
 #include<stdio.h>
 #include<pthread.h>
+#include<string.h>
 
-#define LL unsigned long long
+#define LL long long
 
-LL faktorial(int n);
-int convertToInt(char *str);
+void* faktorial(void* n);
+int convertToInt(const char *str);
 
 int main(int argc, char *argv[]) {
     if(argc<2) {
@@ -12,12 +13,23 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    printf("%d\n", convertToInt(argv[1]));
 
 }
 
-LL faktorial(int n) {
+void* faktorial(void* n) {
     int i;
     LL prod = 1;
-    for(i=1; i<=n; i++) prod*=i;
-    return prod;
+    int *k = n;
+    printf("Hasil %d! = ", *k);
+    for(i=1; i<=*k; i++) prod*=i;
+    printf("%lld\n", prod);
+}
+
+int convertToInt(const char *str) {
+    int sum = 0, i;
+    int len = strlen(str);
+    for(i=0; i<len; i++)
+        sum = sum*10 + ((int)str[i] - 48);
+    return sum;
 }
