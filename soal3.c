@@ -27,19 +27,27 @@ int main() {
     pthread_create(tid+1, NULL, &hewanTunggu, (void *) &kepiting);
 
     while(1) {
-        if(status[0] <= 0 || status[0] > 100 ||
-            status[1] <= 0 || status[1] > 100)
-            break;
         printf("Status Lohan : %d\n", status[0]);
         printf("Status Kepiting : %d\n", status[1]);
         printf("1. Kasih makan Lohan\n");
         printf("2. Kasih makan kepiting\n");
         printf("> ");
         scanf("%d", &sel);
+
+        // Check condition
+        if(status[0] <= 0 || status[0] > 100 ||
+            status[1] <= 0 || status[1] > 100)
+            break;
+
+        if(sel==1) status[0]+=10;
+        else if(sel==2) status[1]+=10;
+        else printf("Salah oeee\n");
     }
 
-
-    //sleep(100);
+    if(status[0]>status[1])
+        printf("Kekuatan lohan!!!!\n");
+    else
+        printf("Kekuatan uang!!!!\n");
 
 }
 
