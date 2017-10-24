@@ -3,6 +3,7 @@
 #include<string.h>
 
 #define LL long long
+#define MAX_VAL 10
 
 void* faktorial(void* n);
 int convertToInt(const char *str);
@@ -13,7 +14,20 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    printf("%d\n", convertToInt(argv[1]));
+    int i;
+    int N[MAX_VAL];
+
+    // Put each argv to int[]
+    for(i=1; i<argc; i++)
+        N[i-1] = convertToInt(argv[i]);
+
+    pthread_t tid[MAX_VAL];
+
+    for(i=0; i<argc-1; i++)
+        pthread_create(tid+i, NULL, &faktorial, (void *) &N[i]);
+
+    for(i=0; i<argc-1; i++)
+        pthread_join(tid[i], NULL);
 
 }
 
