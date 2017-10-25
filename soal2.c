@@ -38,7 +38,7 @@ int main() {
         printf("Insert Player %d's name : ", i+1);
         scanf("%s", name);
         strcpy(player[i].name, name);
-        player[i].point = 9;
+        player[i].point = 0;
         player[i].field = 0;
     }
 
@@ -46,7 +46,7 @@ int main() {
     struct player_zip pzip2 = {&player[1], &player[0]};
 
     pthread_create(tid+0, NULL, &playerOneTurn, (void *) &pzip1);
-    pthread_create(tid+0, NULL, &playerTwoTurn, (void *) &pzip2);
+    pthread_create(tid+1, NULL, &playerTwoTurn, (void *) &pzip2);
 
     pthread_join(tid[0], NULL);
     pthread_join(tid[1], NULL);
