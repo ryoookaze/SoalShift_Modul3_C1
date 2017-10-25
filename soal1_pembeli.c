@@ -5,7 +5,7 @@
 #include<string.h>
 
 int main() {
-    key_t key1 = 827, key2 = 991;
+    key_t key1 = 827;
 
     char name[6][10] = {
         "MP4A1",
@@ -24,8 +24,8 @@ int main() {
     int sel, st, i;
     char na[10];
     while(1) {
-        printf("MENU PENJUAL BOSS!\n");
-        printf("1. Tambah stock\n");
+        printf("MENU PEMBELI BOSS!\n");
+        printf("1. Beli barang\n");
         printf("2. List barang\n");
         printf("3. Keluar\n> ");
         scanf("%d", &sel);
@@ -34,7 +34,14 @@ int main() {
             scanf("%s", na);
             scanf("%d", &st);
             for(i=0; i<6; i++) {
-                if(!strcmp(na, name[i])) stock[i]+=st;
+                if(!strcmp(na, name[i])) {
+                    if(stock[i]-st>=0) {
+                        stock[i]-=st;
+                        printf("Sukses dibeli\n");
+                    }
+                    else
+                        printf("Kekurangan barang boss\n");
+                }
             }
         }
         else if(sel==2) {
