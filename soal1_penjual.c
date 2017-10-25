@@ -5,7 +5,7 @@
 #include<string.h>
 
 int main() {
-    key_t key1 = 827, key2 = 991;
+    key_t key1 = 827;
 
     char name[6][10] = {
         "MP4A1",
