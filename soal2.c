@@ -22,8 +22,6 @@ struct player_zip {
     struct player_t *play2;
 };
 
-void checkGame(struct player_t *a, struct player_t *b);
-
 int main() {
     int i;
     struct player_t player[MAX_PLAYER];
@@ -38,7 +36,7 @@ int main() {
         printf("Insert Player %d's name : ", i+1);
         scanf("%s", name);
         strcpy(player[i].name, name);
-        player[i].point = 0;
+        player[i].point = 9;
         player[i].field = 0;
     }
 
@@ -51,16 +49,15 @@ int main() {
     pthread_join(tid[0], NULL);
     pthread_join(tid[1], NULL);
 
-    printf("kasdahsdhj");
+    while(*player[0].status!=0) continue;
 
-    while(player[0].status!=0) continue;
-
+    printf("\n");
     if(player[0].point>player[1].point)
-        printf("%s wins the game!\n", player[0].name);
+        printf("%s wins the game!\n\n", player[0].name);
     else if(player[1].point>player[0].point)
-        printf("%s wins the game!\n", player[1].name);
+        printf("%s wins the game!\n\n", player[1].name);
     else
-        printf("Game is draw!\n");
+        printf("Game is draw!\n\n");
 
 
 }
@@ -72,11 +69,11 @@ void* playerOneTurn(void* argu) {
 
     int n_mine, mine, i;
     while(1) {
-        while(*play1->status != 1) continue; // Player 2's turn
+        while(*play1->status == -1) continue; // Player 2's turn
         if(play1->point >= 10 || play2->point >= 10 ||
             (play1->field == FIELD_FULL && play2->field == FIELD_FULL)) {
-            checkGame(play1, play2);
-            exit(EXIT_SUCCESS);
+            *play1->status = 0;
+            pthread_exit(NULL);
         }
 
         printf("Current score:\n");
@@ -123,11 +120,11 @@ void* playerTwoTurn(void* argu) {
 
     int n_mine, mine, i;
     while(1) {
-        while(*play1->status != -1) continue; // Player 1's turn
+        while(*play1->status == 1) continue; // Player 1's turn
         if(play1->point >= 10 || play2->point >= 10 ||
             (play1->field == FIELD_FULL && play2->field == FIELD_FULL)) {
-            checkGame(play2, play1);
-            exit(EXIT_SUCCESS);
+            *play1->status = 0;
+            pthread_exit(NULL);
         }
 
         printf("Current score:\n");
@@ -165,15 +162,6 @@ void* playerTwoTurn(void* argu) {
 
         *play1->status = 1;
     }
-}
-
-void checkGame(struct player_t *a, struct player_t *b) {
-    if(a->point>b->point)
-        printf("%s wins the game!\n", a->name);
-    else if(b->point>a->point)
-        printf("%s wins the game!\n", b->name);
-    else
-        printf("The game is draw\n");
 }
 
 
